@@ -3,12 +3,14 @@ package com.bdi.sp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bdi.sp.dao.JapanDAO;
+import com.bdi.sp.vo.Japan;
 
 @Controller
 public class JapanController {
@@ -26,6 +28,12 @@ public class JapanController {
 	@RequestMapping(value="/japan/{jpnum}",method=RequestMethod.DELETE)
 	public @ResponseBody String deleteJapan(@PathVariable int jpnum) {
 		return jdao.deleteJapan(jpnum)+"";
-		
 	}
+	
+	@RequestMapping(value="/japan",method=RequestMethod.PUT)
+	public @ResponseBody String updateJapan(@RequestBody Japan jp) {
+		System.out.println(jp);
+		return "1";
+	}
+
 }

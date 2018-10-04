@@ -11,7 +11,7 @@
 <table border="1">
 	<thead>
 		<tr>
-			<th>번호</th>
+			<th>번호</th> 
 			<th>이름</th>
 			<th>설명</th>
 			<th>수정/삭제</th>
@@ -39,8 +39,30 @@
 	function japanUpdate(jpnum){
 		var jpname = document.querySelector('input[name=jpname' + jpnum + ']').value;
 		var jpdesc = document.querySelector('input[name=jpdesc' + jpnum + ']').value;
-		alert("수정: " +jpnum +jpname + jpdesc);
+		//alert("수정: " +jpnum +jpname + jpdesc);
+		var param = {jpnum:jpnum,jpname:jpname,jpdesc:jpdesc};
+		var xhr = new XMLHttpRequest(); 
+		var url = "/japan";
+		xhr.open('PUT',url);
+		xhr.setRequestHeader('Content-Type','application/json')
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState==4){
+				if(xhr.status==200){
+					if(xhr.responseText=='1'){
+						alert('수정성공!')
+						location.href='/japan';
+					}
+				}else{
+					alert('수정실패');
+				}
+			}
+		}
+		alert(JSON.stringify(param));
+		xhr.send(JSON.stringify(param));
 	}
+	
+	
+	
 	function japanDelete(jpnum){
 		var xhr = new XMLHttpRequest();
 		var url = "/japan/" + jpnum;
