@@ -17,12 +17,27 @@ public class JapanDAOImpl implements JapanDAO{
 	
 	@Override
 	public List<Japan> getJapanList(Japan j) {
-		return ss.selectList("SQL.JAPAN.selectJapan",j);
+		return ss.selectList("SQL.JAPAN.selectJapanList",j);
 	}
 
 	@Override
 	public int deleteJapan(int jpnum) {
 		return ss.delete("SQL.JAPAN.deleteJapan", jpnum);
+	}
+
+	@Override
+	public int updateJapan(Japan j) {
+		return ss.update("SQL.JAPAN.updateJapan",j);
+	}
+
+	@Override
+	public Japan getJapan(int jpnum) {
+		return ss.selectOne("SQL.JAPAN.selectJapan", jpnum);
+	}
+
+	@Override
+	public String insertJapan(Japan jp) {
+		return ss.insert("SQL.JAPAN.insertJapan",jp) + "";
 	}
 
 }

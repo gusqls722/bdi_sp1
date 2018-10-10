@@ -3,10 +3,33 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="SQL.BOARDINFO">
-  <select id="selectBoardInfo" resultType="bi">
+  <select id="selectBoardInfo" resultType="bi" parameterType="bi">
     select * from board_info
+    <where>
+    	<if test="binum!=null">and binum=#{binum}</if>
+    	<if test="bititle!=null">and bititle=#{bititle}</if>
+  		<if test="bitext!=null">and bitext=#{bitext}</if>
+    </where>
   </select>
-  <insert id="insertBoardInfo" parameterType="bi">
   
+  <select id="boardDelete" parameterType="bi">
+  	delete from board_info
+  	where binum=#{binum}
+  </select>
+  
+  <select id="boardUpdate" parameterType="bi">
+  	update board_info
+  	<set>
+  		<if test="bititle!=null">bititle=#{bititle},</if>
+  		<if test="bitext!=null">bitext=#{bitext},</if>
+  		<if test="bifile!=null">bifile=#{bifile},</if>
+  		<if test="bicredat!=null">bicredat=#{bicredat}</if>
+  	</set>
+  	where binum=#{binum}
+  </select>
+  
+  <insert id="boardInsert" parameterType="bi">
+  	insert into board_info(bititle,bitext,bifile,bicredat,bimoddat,bicnt,biactive,uinum)
+  	values(#{bititle}, #{bitext}, #{bifile}, now(), now(), #{bicnt}, #{biactive}, #{uinum})
   </insert>
 </mapper>

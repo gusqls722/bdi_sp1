@@ -7,7 +7,36 @@
 	<meta charset="utf-8">
 	<title>스프링테스트</title>
 </head>
+<script>
+window.addEventListener('load',function(){
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET','/japan');
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState==4){
+			if(xhr.status==200){
+				var res = JSON.parse(xhr.responseText);
+				var html = '';
+				for(var j of res){
+					html += '<tr>';
+					html += '<td>'+ j.jpnum +'</td>';
+					html += '<td><input type="text" name="jpname'+ j.jpnum +'" value="'+ j.jpname +'"></td>';
+					html += '<td><input type="text" name="jpdesc'+ j.jpnum +'" value="'+ j.jpdesc +'"></td>';
+					html += '<td><button onclick="japanUpdate('+j.jpnum+')">수정</button>';
+					html += '<button onclick="japanDelete('+j.jpnum+')">삭제</button></td>';
+					html += '</tr>';
+				}
+				
+				document.querySelector('#jpBody').insertAdjacentHTML('beforeend',html);
+			}else{
+				
+			}
+		}
+	}
+	xhr.send();
+})
+</script>
 <body>
+
 <table border="1">
 	<thead>
 		<tr>
@@ -17,25 +46,12 @@
 			<th>수정/삭제</th>
 		</tr>
 	</thead>
-	<tbody>
-		<c:if test="${empty jList }">
-		 <tr> <td colspan="4">japan 리스트 없다.</td> </tr>
-		</c:if>	
-		<c:forEach items="${jList}" var="j">
-			<tr>
-				<td>${j.jpnum}</td>
-				<td><input type="text" name="jpname${j.jpnum}" value="${j.jpname}"></td>
-				<td><input type="text" name="jpdesc${j.jpnum}" value="${j.jpdesc}"></td>
-				<td>
-					<button onclick="japanUpdate(${j.jpnum})">수정</button>
-					<button onclick="japanDelete(${j.jpnum})">삭제</button>
-				</td>
-			</tr>
-	</c:forEach>
+	<tbody id="jpBody">
 	</tbody>
 </table>
 	<button onclick="japanAdd()">JAPAN추가</button>
 <script>
+	
 	function japanUpdate(jpnum){
 		var jpname = document.querySelector('input[name=jpname' + jpnum + ']').value;
 		var jpdesc = document.querySelector('input[name=jpdesc' + jpnum + ']').value;
@@ -50,7 +66,7 @@
 				if(xhr.status==200){
 					if(xhr.responseText=='1'){
 						alert('수정성공!')
-						location.href='/japan';
+						location.href='/uri/japan/list';
 					}
 				}else{
 					alert('수정실패');
@@ -90,6 +106,30 @@
 			html += '<td><button onclick="japanInsert()">저장</button></td>';
 			html += '</tr>';
 			document.querySelector('tbody').insertAdjacentHTML('beforeend',html);
+	}
+	
+	function japanInsert(){
+		var jpname = document.querySelector('input[name=jpname]').value;
+		var jpdesc = document.querySelector('input[name=jpdesc]').value;
+		var param = {jpname:jpname,jpdesc:jpdesc};
+		var xhr = new XMLHttpRequest(); 
+		var url = "/japan";
+		xhr.open('POST',url);
+		xhr.setRequestHeader('Content-Type','application/json')
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState==4){
+				if(xhr.status==200){
+					if(xhr.responseText=='1'){
+						alert('저장성공!')
+						location.href='/uri/japan/list';
+					}
+				}else{
+					alert('저장실패');
+				}
+			}
+		}
+		alert(JSON.stringify(param));
+		xhr.send(JSON.stringify(param));
 	}
 </script>
 </body>

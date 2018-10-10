@@ -20,9 +20,11 @@ public class BoardInfoTest {
 	@Autowired
 	private SqlSession ss;
 	
-	@Test
-	public void selectTest() {
-		List<BoardInfo> biList = ss.selectList("SQL.BOARDINFO.selectBoardInfo");
-		assertEquals(biList.size(), 1003);
-	}
+//	@Test
+//	public void selectTest() {
+//		List<BoardInfo> biList = ss.selectList("SQL.BOARDINFO.selectBoardInfo");
+//		assertEquals(biList.size(), 1003);
+//	}
+	
+
 }
